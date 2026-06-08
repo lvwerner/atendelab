@@ -76,11 +76,12 @@ class UsuariosController
         $status = $_POST['status'] ?? 'ativo';
 
         // Regras mínimas de validação de entrada.
-        if ($nome === '' || $email === '' || $senha === '') {
-            http_response_code(400);
-            echo json_encode(['erro' => 'Nome, e-mail e senha são obrigatórios.']);
-            return;
-        }
+       if (!in_array($perfil, ['admin', 'aluno', 'atendente'], true)) {
+        http_response_code(400);
+        echo json_encode(['erro' => 'Perfil inválido.']);
+        return;
+}
+
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             http_response_code(400);

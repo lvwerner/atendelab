@@ -1,48 +1,85 @@
 <?php
-// Carrega o controller responsável pelos endpoints de usuários.
 require_once __DIR__ . '/app/Controllers/UsuariosController.php';
+require_once __DIR__ . '/app/Controllers/PessoasController.php';
+require_once __DIR__ . '/app/Controllers/TipoAtendimentosController.php';
+require_once __DIR__ . '/app/Controllers/AtendimentosController.php';
 
-// Define controller e action por query string.
-// Exemplo: ?controller=usuarios&action=listar
 $controller = $_GET['controller'] ?? 'home';
 $action     = $_GET['action']     ?? 'index';
 
-// Este roteador é simples: só reconhece o controller "usuarios".
+// -------------------------------------------------------
+// USUARIOS
+// -------------------------------------------------------
 if ($controller === 'usuarios') {
 
-    $usuariosController = new UsuariosController();
+    $ctrl = new UsuariosController();
 
-    // Escolhe qual método do controller executar.
     switch ($action) {
-
-        case 'listar':
-            $usuariosController->listar();
-            break;
-
-        case 'buscar':
-            $usuariosController->buscarPorId();
-            break;
-
-        case 'criar':
-            $usuariosController->criar();
-            break;
-
-        case 'atualizar':
-            $usuariosController->atualizar();
-            break;
-
-        case 'excluir':
-            $usuariosController->excluir();
-            break;
-
-        default:
-            // Retorno padrão para action inválida.
-            echo json_encode(['erro' => 'Ação de usuários não encontrada.']);
-            break;
+        case 'listar':   $ctrl->listar();      break;
+        case 'buscar':   $ctrl->buscarPorId(); break;
+        case 'criar':    $ctrl->criar();       break;
+        case 'atualizar':$ctrl->atualizar();   break;
+        case 'excluir':  $ctrl->excluir();     break;
+        default: echo json_encode(['erro' => 'Acao de usuarios nao encontrada.']); break;
     }
 
+// -------------------------------------------------------
+// PESSOAS
+// -------------------------------------------------------
+} elseif ($controller === 'pessoas') {
+
+    $ctrl = new PessoasController();
+
+    switch ($action) {
+        case 'listar':   $ctrl->listar();      break;
+        case 'buscar':   $ctrl->buscarPorId(); break;
+        case 'criar':    $ctrl->criar();       break;
+        case 'atualizar':$ctrl->atualizar();   break;
+        case 'excluir':  $ctrl->excluir();     break;
+        default: echo json_encode(['erro' => 'Acao de pessoas nao encontrada.']); break;
+    }
+
+// -------------------------------------------------------
+// TIPOS DE ATENDIMENTOS
+// -------------------------------------------------------
+} elseif ($controller === 'tipos') {
+
+    $ctrl = new TiposAtendimentosController();
+
+    switch ($action) {
+        case 'listar':   $ctrl->listar();      break;
+        case 'buscar':   $ctrl->buscarPorId(); break;
+        case 'criar':    $ctrl->criar();       break;
+        case 'atualizar':$ctrl->atualizar();   break;
+        case 'excluir':  $ctrl->excluir();     break;
+        default: echo json_encode(['erro' => 'Acao de tipos nao encontrada.']); break;
+    }
+
+// -------------------------------------------------------
+// ATENDIMENTOS
+// -------------------------------------------------------
+} elseif ($controller === 'atendimentos') {
+
+    $ctrl = new AtendimentosController();
+
+    switch ($action) {
+        case 'listar':   $ctrl->listar();      break;
+        case 'buscar':   $ctrl->buscarPorId(); break;
+        case 'criar':    $ctrl->criar();       break;
+        case 'atualizar':$ctrl->atualizar();   break;
+        default: echo json_encode(['erro' => 'Acao de atendimentos nao encontrada.']); break;
+    }
+
+// -------------------------------------------------------
+// HOME
+// -------------------------------------------------------
 } else {
-    // Resposta básica para indicar que a aplicação está no ar.
     echo '<h1>AtendeLab</h1>';
-    echo '<p>Projeto em execução. Use controller=usuarios&action=listar para testar.</p>';
+    echo '<p>Rotas disponiveis:</p>';
+    echo '<ul>';
+    echo '<li>?controller=usuarios&action=listar</li>';
+    echo '<li>?controller=pessoas&action=listar</li>';
+    echo '<li>?controller=tipos&action=listar</li>';
+    echo '<li>?controller=atendimentos&action=listar</li>';
+    echo '</ul>';
 }
